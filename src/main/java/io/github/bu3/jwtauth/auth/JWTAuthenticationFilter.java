@@ -23,9 +23,11 @@ import static io.github.bu3.jwtauth.auth.SecurityConstants.*;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private AuthenticationManager authenticationManager;
-    public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
+
+    JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
+
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
@@ -42,6 +44,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             throw new RuntimeException(e);
         }
     }
+
     @Override
     protected void successfulAuthentication(HttpServletRequest req,
                                             HttpServletResponse res,

@@ -17,7 +17,7 @@ import static io.github.bu3.jwtauth.auth.SecurityConstants.*;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
-    public JWTAuthorizationFilter(AuthenticationManager authManager) {
+    JWTAuthorizationFilter(AuthenticationManager authManager) {
         super(authManager);
     }
 
