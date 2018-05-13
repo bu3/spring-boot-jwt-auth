@@ -31,7 +31,6 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
                                     HttpServletResponse res,
                                     FilterChain chain) throws IOException, ServletException {
         String header = req.getHeader(HEADER_STRING);
-        LOGGER.info("-------> Auth token {} - {}", header, req.getRequestURL());
         if (header == null || !header.startsWith(TOKEN_PREFIX)) {
             chain.doFilter(req, res);
             return;
@@ -50,8 +49,13 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
                     .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
                     .getBody()
                     .getSubject();
+
+            String scopes = (String)Jwts.parser()
+                    .setSigningKey(SECRET)
+                    .parseClaimsJws(token.replace(TOKEN_PREFIX, "")).getBody().get("scopes");
+
             if (user != null) {
-                return new UsernamePasswordAuthenticationToken(user, null, Collections.singletonList(new SimpleGrantedAuthority("USER")));
+                return new UsernamePasswordAuthenticationToken(user, null, Collections.singletonList(new SimpleGrantedAuthority(scopes)));
             }
             return null;
         }

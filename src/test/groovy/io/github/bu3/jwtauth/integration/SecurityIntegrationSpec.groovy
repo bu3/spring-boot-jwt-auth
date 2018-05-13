@@ -19,7 +19,7 @@ class SecurityIntegrationSpec extends Specification {
     @Autowired
     TestRestTemplate restTemplate
 
-    def "Should return 403"() {
+    def "Should return forbidden if user has no right to access resources"() {
         when:
         ResponseEntity response = restTemplate.postForEntity("/users/sign-up", ["username": "foo", "password": "1234"], Void)
 
@@ -40,7 +40,23 @@ class SecurityIntegrationSpec extends Specification {
 
         then:
         response.statusCode == FORBIDDEN
+    }
 
+    def "Should return OK if user has right to access resources"() {
+        when:
+        def response = restTemplate.postForEntity("/login", ["username": "admin", "password": "1234"], Void)
+
+        then:
+        response.statusCode == OK
+        def authHeader = response.headers.get("Authorization")[0]
+
+        when:
+        MultiValueMap<String, String> headers = new HttpHeaders()
+        headers.put("Authorization", [authHeader])
+        response = restTemplate.exchange("/api/tasks", HttpMethod.GET, new HttpEntity(headers), Void)
+
+        then:
+        response.statusCode == OK
     }
 }
 

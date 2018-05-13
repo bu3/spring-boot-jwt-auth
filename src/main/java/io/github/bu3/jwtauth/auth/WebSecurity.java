@@ -37,7 +37,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/**").hasAuthority("CICCIO"); // Protected API End-points;
+                .antMatchers("/api/**").hasAuthority("ADMIN"); // Protected API End-points;
     }
 
     @Override
