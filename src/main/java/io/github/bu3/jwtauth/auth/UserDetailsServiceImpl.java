@@ -3,13 +3,14 @@ package io.github.bu3.jwtauth.auth;
 
 import io.github.bu3.jwtauth.user.ApplicationUser;
 import io.github.bu3.jwtauth.user.ApplicationUserRepository;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import static java.util.Collections.emptyList;
+import java.util.Collections;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -26,6 +27,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (applicationUser == null) {
             throw new UsernameNotFoundException(username);
         }
-        return new User(applicationUser.getUsername(), applicationUser.getPassword(), emptyList());
+        return new User(applicationUser.getUsername(), applicationUser.getPassword(), Collections.singletonList(new SimpleGrantedAuthority("USER")));
     }
+
+
 }

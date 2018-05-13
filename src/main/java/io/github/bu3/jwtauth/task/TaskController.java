@@ -9,7 +9,7 @@ import java.util.UUID;
 import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
-@RequestMapping("/tasks")
+@RequestMapping("/api/tasks")
 public class TaskController {
 
     private List<Task> tasks = new ArrayList<>();
